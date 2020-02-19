@@ -1,0 +1,43 @@
+{
+  "name": "flutter_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env PORT=8000 ts-node-dev --respawn ./src/bin/www.ts",
+    "dev": "cross-env PORT=8000  nodemon --exec ts-node --files ./src/bin/www.ts",
+    "test": "cross-env PORT=8000 TS_NODE_FILES=true NODE_ENV=test  mocha -r ts-node/register src/tests/*.spec.ts  --exit",
+    "coverage": "nyc --reporter lcov  npm run  test"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "node",
+    "shop"
+  ],
+  "author": "Xiao Liu",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-errors": "^1.7.3",
+    "http-status-codes": "^1.4.0",
+    "morgan": "^1.9.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/http-errors": "^1.6.3",
+    "@types/morgan": "^1.7.37",
+    "cross-env": "^7.0.0",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
+    "ts-node": "^8.6.2",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.7.5"
+  }
+}
