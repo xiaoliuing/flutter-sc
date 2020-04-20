@@ -6,6 +6,7 @@ import './home_page.dart';
 import './member_page.dart';
 import './car.dart';
 import './category_page.dart';
+// import './login_page.dart';
 import '../provider/current_page_index.dart';
 
 class IndexPage extends StatelessWidget {
@@ -33,6 +34,7 @@ class IndexPage extends StatelessWidget {
     HomePage(),
     CategoryPage(),
     ShopCarPage(),
+    // LoginPage(),
     MemberPage()
   ];
 

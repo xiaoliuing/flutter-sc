@@ -28,6 +28,12 @@ dependencies:
   dio: ^3.0.8 # 数据异步请求
   flutter_easyrefresh: ^1.2.7 # 懒加载刷新
   flutter_swiper: ^1.1.6 #轮播图
+  fluttertoast: ^4.0.1 #弹框
+  fluro: ^1.6.3 #配置路由
+  flutter_html: ^0.11.1 #渲染HTML标签
+  sqflite: ^1.1.0
+  shared_preferences: ^0.5.1 # 本地持久化存储数据
+  font_awesome_flutter: ^8.2.0
 
 dev_dependencies:
   flutter_test:
@@ -46,9 +52,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/girl.jpeg
+    - assets/images/boy.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

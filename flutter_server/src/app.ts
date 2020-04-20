@@ -10,6 +10,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(resolve(__dirname,"public")));
 
 app.use('/getHomePageContent', require(resolve(__dirname, './routes/home')));
+app.use('/getHotGoods', require(resolve(__dirname, './routes/hots')));
+app.use('/getCategory', require(resolve(__dirname, './routes/category')));
+app.use('/getCategoryGoods', require(resolve(__dirname, './routes/cateGoods')));
+app.use('/getGoodDetail', require(resolve(__dirname, './routes/detail_goods')));
+app.use('/user', require(resolve(__dirname, './routes/user')));
+app.use('/search', require(resolve(__dirname, './routes/search')));
 
 app.use(function (_req, _res, next) {
   next(createError(404));
