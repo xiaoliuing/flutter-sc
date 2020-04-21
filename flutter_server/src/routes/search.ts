@@ -2,7 +2,6 @@ import express, { Express, Request, Response } from 'express';
 import { send } from '../utils/send';
 import { Goods } from '../model/index';
 import Sequelize from 'sequelize';
-// const base_url = "http://" + config.HOST + ":" + config.PORT + "/images/banner/";
 
 const router: Express = express();
 

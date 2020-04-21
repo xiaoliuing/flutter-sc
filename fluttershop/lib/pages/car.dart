@@ -6,12 +6,8 @@ import '../provider/cart_provider.dart';
 import './cart_page/cart_item.dart';
 import './cart_page/cart_bottom.dart';
 
-class ShopCarPage extends StatefulWidget {
-  @override
-  _ShopCarPageState createState() => _ShopCarPageState();
-}
+class ShopCarPage extends StatelessWidget {
 
-class _ShopCarPageState extends State<ShopCarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +20,8 @@ class _ShopCarPageState extends State<ShopCarPage> {
             future: _getGoodsInfo(context),
             builder: (contxet, snapShot){
               var cartList = Provide.value<CartProvider>(context).cartList;
+              print(snapShot.data);
+              print(snapShot.hasData);
               if(snapShot.hasData && cartList != null) {
                 print(snapShot.data);
                 if(snapShot.data == '1'){
@@ -68,6 +66,6 @@ class _ShopCarPageState extends State<ShopCarPage> {
   Future _getGoodsInfo(BuildContext context) async {
     await Provide.value<CartProvider>(context).getCartInfo();
     var isLogin = await Provide.value<UserProvider>(context).getShareInfo('isLogin');
-    return isLogin;
+    return isLogin == null ? '0' : '1';
   }
 }

@@ -6,7 +6,7 @@ import 'dart:io';
 import '../config/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future request(url,{formData})async{
+Future request(url,{formData=''})async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userString = prefs.getString('userInfo'); //获取持久化存储数据
   Map userInfo = userString == null ? {} : json.decode(userString.toString());

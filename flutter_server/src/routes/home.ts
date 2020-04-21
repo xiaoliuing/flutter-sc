@@ -1,13 +1,10 @@
 import express, { Express, Request, Response } from 'express';
 import { Data } from '../interfaces/router';
-// import config from '../config/index';
 import { Goods, Banner } from '../model/index';
-// const base_url = "http://" + config.HOST + ":" + config.PORT + "/images/banner/";
 
 const router: Express = express();
 
 router.post('/', async (_req: Request, res: Response) => {
-  // const id: Number = req.query.id;
   const query = await Goods.findAll();
   const query2 = await Banner.findAll();
   const banner_imgs: any = [];

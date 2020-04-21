@@ -6,7 +6,7 @@ import 'dart:convert';
 class UserProvider with ChangeNotifier {
   Map<String, dynamic> userInfo = {
     'token': '',
-    'headerImg': '',
+    'img': '',
     'address': '',
     'phone': '',
     'nick_name': '',
@@ -38,8 +38,10 @@ class UserProvider with ChangeNotifier {
     Map<String, dynamic> tempMap = userString == null ? {} : json.decode(userString.toString());
     var temp = data.keys;
     temp.forEach((item){
-      tempMap[item] = data[item];
-      userInfo[item] = data[item];
+      if(data[item] != ''){
+        tempMap[item] = data[item];
+        userInfo[item] = data[item];
+      }
     });
     userString = json.encode(tempMap).toString();
     prefs.setString('userInfo', userString);
@@ -50,6 +52,7 @@ class UserProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var userString = prefs.getString('userInfo'); //获取持久化存储的值
     Map<String, dynamic> tempMap = userString == null ? {} : json.decode(userString.toString());
+    print(tempMap);
     return tempMap[type];
   }
 
@@ -62,17 +65,10 @@ class UserProvider with ChangeNotifier {
 
   cleanUserInfo()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var userString = prefs.getString('userInfo'); //获取持久化存储的值
-    Map<String, dynamic> tempMap = userString == null ? {} : json.decode(userString.toString());
+    prefs.remove('userInfo');
     userInfo.keys.forEach((key){
-      if(tempMap[key] != null){
-        print(key);
-        tempMap[key] = '';
-      }
       userInfo[key] = '';
     });
-    userString = json.encode(tempMap).toString();
-    prefs.setString('userInfo', userString);
     notifyListeners();
   }
 }

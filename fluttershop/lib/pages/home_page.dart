@@ -221,9 +221,21 @@ class SwiperDiy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      // color: Colors.white,
       height: ScreenUtil().setHeight(250),
       width: ScreenUtil().setWidth(730),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black26,
+            offset: Offset(0.0, 15.0), //阴影xy轴偏移量
+            blurRadius: 10.0, //阴影模糊程度
+            spreadRadius: 10.0 //阴影扩散程度
+          )
+        ]
+      ),
       margin: EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {

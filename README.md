@@ -1,5 +1,6 @@
 # 商城App
 
-技术栈：Flutter + Express + Typescript + Mysql
+学习Flutter做的，已完成
 
-持续更新中.....
+技术栈：Flutter + Express + Typescript + Mysql + Sequelize(ORM)
+

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttershop/service/http_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import '../model/cart_model.dart';
@@ -11,6 +12,24 @@ class CartProvider with ChangeNotifier {
   int allPrice = 0; //总价格
   int allGoodsCount = 0; //商品总数
   bool isAllCheck = true; //是否全选
+
+  initCartList(List list)async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    cartString = prefs.getString('cartInfo'); //获取持久化存储的值
+    var temp = cartString == null ? [] : json.decode(cartString.toString());
+    //把获取到的值转变为List
+    List<Map> tempList = (temp as List).cast();
+    if(list.length > 0){
+      list.forEach((item){
+        tempList.add(item);
+        cartList.add(CartInfoModel.fromJson(item));
+      });
+    }
+    cartString = json.encode(tempList).toString();
+
+    prefs.setString('cartInfo', cartString);
+    notifyListeners();
+  }
 
   save(goodsId, goodsName, count, price, images) async {
     //初始化SharedPreferences
@@ -28,7 +47,6 @@ class CartProvider with ChangeNotifier {
     allPrice = 0;
     allGoodsCount = 0; //把商品总数置为0
     tempList.forEach((item) {
-      print(item.toString());
       if (item['goodsId'] == goodsId) {
         tempList[ival]['count'] = item['count'] + 1;
         cartList[ival].count++;
@@ -90,10 +108,11 @@ class CartProvider with ChangeNotifier {
         }
 
         cartList.add(new CartInfoModel.fromJson(item));
-
       });
     }
-
+    if(cartList.length > 0){
+      await request('cart', formData: {'cart': cartList});
+    }
     notifyListeners();
   }
 
@@ -183,6 +202,7 @@ class CartProvider with ChangeNotifier {
     await getCartInfo();
   }
 
+  // 删除选中的商品
   deleteAnyCartGoods()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cartString = prefs.getString('cartInfo'); //获取持久化存储的值
@@ -198,6 +218,7 @@ class CartProvider with ChangeNotifier {
     await getCartInfo();
   }
 
+  // 获取选中的商品
   getChechGoods()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cartString = prefs.getString('cartInfo'); //获取持久化存储的值
@@ -209,5 +230,16 @@ class CartProvider with ChangeNotifier {
       }
     });
     return newList;
+  }
+
+  // 清空购物车
+  cleanCart()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('cartInfo');
+    cartString = "[]";
+    cartList = []; //商品列表对象
+    allPrice = 0; //总价格
+    allGoodsCount = 0; //商品总数
+    notifyListeners();
   }
 }

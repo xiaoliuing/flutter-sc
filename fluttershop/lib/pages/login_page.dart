@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttershop/config/colors.dart';
+import 'package:fluttershop/provider/cart_provider.dart';
 import 'package:fluttershop/provider/user_provider.dart';
 import 'package:provide/provide.dart';
   import '../service/http_service.dart';
@@ -35,11 +36,13 @@ class _LoginPageState extends State<LoginPage> {
           var res = {
             'token': data['data']['token'],
             'address': data['data']['address'],
+            'img': data['data']['img'],
             'phone': data['data']['phone'],
             'nick_name': data['data']['nick_name'],
             'isLogin': '1'
           };
           await Provide.value<UserProvider>(context).changeUserOtherInfo(res);
+          await Provide.value<CartProvider>(context).initCartList(json.decode(data['data']['cart']));
         }
         Navigator.pop(context);
       });

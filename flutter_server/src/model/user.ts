@@ -10,21 +10,9 @@ User.init({
   address: DataTypes.STRING,
   phone: DataTypes.STRING,
   cart: DataTypes.STRING,
-  paied: DataTypes.STRING
+  paied: DataTypes.STRING,
+  received: DataTypes.STRING,
 }, { sequelize, modelName: 'user' });
-
-// sequelize.sync()
-//   .then(() => User.create({
-//     name_id: '15837606535',
-//     password: 'e76ted6d76',
-//     img: '',
-//     nick_name: '',
-//     address: '',
-//     phone: '15837606535'
-//   }))
-//   .then((result: User) => {
-//     console.log(result.toJSON());
-//   });
 
 export {
   User

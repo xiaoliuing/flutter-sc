@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttershop/service/http_service.dart';
 import '../config/index.dart';
 import 'goods_list_page.dart';
 
@@ -33,13 +36,33 @@ class _SearchPageState extends State<SearchPage> with AutomaticKeepAliveClientMi
           child: SearchWidget(),
         )
       ),
-      body: Column(
-        children: <Widget>[
-          _hotTitle(context, '热门标签'),
-          _hotTags(context, ['长裙','擦拭','超大城市的','生存手册','都是','上档次吧触发','滴水穿石大V','风发大V衣',])
-        ]
+      body: FutureBuilder(
+        future: _getTags(),
+        builder: (BuildContext context, AsyncSnapshot snapshot){
+          if(snapshot.hasData){
+            return Column(
+              children: <Widget>[
+                _hotTitle(context, '热门标签'),
+                _hotTags(context, snapshot.data)
+              ]
+            );
+          }else{
+            return Center(
+              child: Text(
+                STitle.loading,
+                style: TextStyle(color: Colors.black38)
+              ),
+            );
+          }
+        },
       )
     );
+  }
+
+  Future _getTags()async{
+    var res = await request('hottags', formData: {'type': '2'});
+    var data = json.decode(res.toString());
+    return json.decode(data['data']['query'][0]['data']);
   }
 
   Widget _hotTitle(BuildContext context, String title){
@@ -114,6 +137,13 @@ class SearchWidget extends StatelessWidget {
         hintText: "搜索商品",
         hintStyle: TextStyle(color: Colors.grey)
       ),
+      onSubmitted: (text) {//内容提交(按回车)的回调
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return GoodsListPage(text);
+        },
+        fullscreenDialog: false
+        ));
+      },
       style: TextStyle(color: Colors.black),
     );
   }

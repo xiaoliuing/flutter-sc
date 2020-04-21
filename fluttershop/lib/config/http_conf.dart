@@ -8,5 +8,10 @@ const servicePath = {
   'getGoodDetail': base_url + 'getGoodDetail',
   'login': base_url + 'user/login',
   'update': base_url + 'user/update',
+  'cart': base_url + 'user/cart',
+  'paied': base_url + 'user/paied',
+  'received': base_url + 'user/received',
+  'del': base_url + 'user/del',
   'search': base_url + 'search',
+  'hottags': base_url + 'getHotGoods/hottags',
 };

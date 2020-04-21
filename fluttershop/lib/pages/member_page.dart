@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttershop/pages/user_info_page.dart';
+import 'package:fluttershop/provider/cart_provider.dart';
 import 'package:fluttershop/provider/user_provider.dart';
 import 'package:provide/provide.dart';
 import '../config/index.dart';
 import '../routes/application.dart';
+import './tobe_received_page.dart';
 import './edit_page.dart';
 
 class MemberPage extends StatelessWidget {
@@ -20,7 +22,7 @@ class MemberPage extends StatelessWidget {
         children: <Widget>[
           _topHeader(context),
           // _orderTitle(),
-          // _orderType(),
+          _orderType(context),
           _actionList(context),
         ],
       ),
@@ -50,7 +52,7 @@ class MemberPage extends StatelessWidget {
                             child: SizedBox(
                               width: 200,
                               height: 200,
-                              child: Image.asset('assets/images/boy.jpg',fit: BoxFit.cover,),
+                              child: Image.network(data['img'],fit: BoxFit.cover,),
                             ),
                           ),
                         ),
@@ -68,7 +70,7 @@ class MemberPage extends StatelessWidget {
                     );
                   }else{
                     return Padding(
-                      padding: EdgeInsets.only(top: 150, bottom: 150),
+                      padding: EdgeInsets.only(top: 110, bottom: 110),
                       child: InkWell(
                         child: FlatButton(
                           color: Colors.white,
@@ -110,68 +112,64 @@ class MemberPage extends StatelessWidget {
   // }
 
 
-  // //我的订单类型
-  // Widget _orderType(){
-  //   return Container(
-  //     margin: EdgeInsets.only(top: 5),
-  //     width: ScreenUtil().setWidth(750),
-  //     height: ScreenUtil().setHeight(150),
-  //     padding: EdgeInsets.only(top: 20),
-  //     color: Colors.white,
-  //     child: Row(
-  //       children: <Widget>[
-  //         Container(
-  //           width: ScreenUtil().setWidth(187),
-  //           child: Column(
-  //             children: <Widget>[
-  //               Icon(
-  //                 Icons.payment,
-  //                 size: 30,
-  //               ),
-  //               Text('待付款'),//'待付款'
-  //             ],
-  //           ),
-  //         ),
-  //         Container(
-  //           width: ScreenUtil().setWidth(187),
-  //           child: Column(
-  //             children: <Widget>[
-  //               Icon(
-  //                 Icons.directions_car,
-  //                 size: 30,
-  //               ),
-  //               Text('待发货'),//'待发货'
-  //             ],
-  //           ),
-  //         ),
-  //         Container(
-  //           width: ScreenUtil().setWidth(187),
-  //           child: Column(
-  //             children: <Widget>[
-  //               Icon(
-  //                 Icons.directions_car,
-  //                 size: 30,
-  //               ),
-  //               Text('待收货'),//'待收货'
-  //             ],
-  //           ),
-  //         ),
-  //         Container(
-  //           width: ScreenUtil().setWidth(187),
-  //           child: Column(
-  //             children: <Widget>[
-  //               Icon(
-  //                 Icons.message,
-  //                 size: 30,
-  //               ),
-  //               Text('待评价'),//'待评价'
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  //我的订单类型
+  Widget _orderType(BuildContext context){
+    return Container(
+      margin: EdgeInsets.only(top: 5),
+      width: ScreenUtil().setWidth(750),
+      height: ScreenUtil().setHeight(150),
+      padding: EdgeInsets.only(top: 20),
+      color: Colors.white,
+      child: Flex(
+        direction: Axis.horizontal,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return ToBeReceivedPage('paied');
+              },
+              fullscreenDialog: false
+              ));
+            },
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Icon(
+                    Icons.directions_car,
+                    size: 30,
+                  ),
+                  Text('待收货'),//'待收货'
+                ],
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return ToBeReceivedPage('received');
+              },
+                fullscreenDialog: false
+              ));
+            },
+            child: Container(
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Icon(
+                      Icons.message,
+                      size: 30,
+                    ),
+                    Text('已收货'),//'待评价'
+                  ],
+                ),
+              )
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
 
   Widget _myListTile(BuildContext context, Icon icon, String title, [option = '']){
@@ -181,6 +179,7 @@ class MemberPage extends StatelessWidget {
           if(option == '/loginout'){
             var a = await showDialogModel(context);
             if(a != null){
+              await Provide.value<CartProvider>(context).cleanCart();
               await Provide.value<UserProvider>(context).cleanUserInfo();
             }
           }else{

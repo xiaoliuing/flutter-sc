@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttershop/config/index.dart';
 import 'package:fluttershop/provider/user_provider.dart';
+import 'package:fluttershop/service/http_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provide/provide.dart';
 import '../provider/cart_provider.dart';
@@ -87,7 +88,11 @@ class _PayPageState extends State<PayPage> {
                         var isPay = await showDialogModel(context, Provide.value<CartProvider>(context).allPrice);
                         if(isPay != null){
                           await Provide.value<CartProvider>(context).deleteAnyCartGoods();
-                          print(cartList.toString());
+                          var formData = {
+                            'paied': cartList,
+                            'cart': Provide.value<CartProvider>(context).cartList
+                          };
+                          await request('paied', formData: formData);
                           Fluttertoast.showToast(
                             msg: '支付成功',
                             toastLength: Toast.LENGTH_SHORT,
