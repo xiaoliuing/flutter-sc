@@ -5,7 +5,7 @@ import 'package:fluttershop/config/colors.dart';
 import 'package:fluttershop/provider/cart_provider.dart';
 import 'package:fluttershop/provider/user_provider.dart';
 import 'package:provide/provide.dart';
-  import '../service/http_service.dart';
+import '../service/http_service.dart';
 
 class LoginPage extends StatefulWidget {
   @override

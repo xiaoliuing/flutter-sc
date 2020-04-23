@@ -19,6 +19,9 @@ class DetailsTop extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       _goodsImg(goodsInfo.image1),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                      ),
                       _goodsTitle(goodsInfo.goodsName),
                       _goodsNum(goodsInfo.goodsSerialNumber),
                       _goodsPrice(goodsInfo.presentPrice, goodsInfo.oriPrice),
